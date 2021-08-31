@@ -1,0 +1,58 @@
+@layout('theme::layouts/main')
+
+@section('body')
+
+@set('page', query.page || 1)
+@set('items', await fetchItems({ page, limit: 5 }))
+
+    <div class="container mx-auto justify-center flex flex-wrap py-4">
+
+        
+        <ul class="w-full">
+            @each(item in items.data)
+                <li class="shadow-lg max-w-3xl mx-auto mb-4">
+                    <img
+                        style="height:500px"
+                        src="{{item.thumbnailSrc}}"
+                        alt="{{item.title}}"
+                        class="w-full object-cover"
+                    >
+                    
+                    <div class="p-4 flex flex-wrap">
+                        <a href="/youtube/{{ item.id }}">
+                            <h2 class="font-bold w-full">
+                                {{ item.title }} 
+                            </h2>
+                        </a>
+
+                        <div class="w-full my-2">
+                            {{excerpt(item.description, 150)}}
+                        </div>
+
+                        <div class="text-sm mt-2 w-6/12">
+                            {{item.typeName}}
+                        </div>
+
+                        <div
+                            data-moment-format='YYYY/MM/DD'
+                            data-moment-origin-format='YYYY-MM-DDThh:mm:ss.sZ'
+                            class="text-sm mt-2 w-6/12 text-right"
+                        >
+                            {{ item.publishedAt }}
+                        </div>
+
+                    </div>
+                </li>
+            @endeach
+        </ul>
+
+        <div>
+            @!component('theme::components/pagination', {
+                currentPage: page,
+                lastPage: items.meta.last_page
+            })
+        </div>
+
+    </div>
+
+@end

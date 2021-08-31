@@ -1,0 +1,8 @@
+
+@if(new RegExp('youtube/*').test(path))
+    @include('theme::pages/single')
+@endif
+
+@if(path === '/')
+    @include('theme::pages/home')
+@endif

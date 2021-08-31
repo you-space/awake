@@ -1,0 +1,16 @@
+@set('links', Array.from({ length: lastPage }))
+
+<ul class="flex full-width">
+    @each((link, index) in links)
+    
+      <li class="mr-2">
+        <a
+            href="{{Number(currentPage) === index + 1 ? '#' : '/?page=' + ( index + 1 ) }}"
+            disabled='' 
+            class="{{Number(currentPage) === index + 1 ? '' : 'text-blue-500' }}"
+        >
+            {{index + 1}}
+        </a>
+      </li>
+      @endeach
+</ul>

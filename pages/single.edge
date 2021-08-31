@@ -1,0 +1,16 @@
+@layout('theme::layouts/main')
+
+@section('body')
+
+@set('item', await findItem(params[1]))
+
+<div class="container mx-auto flex flex-wrap justify-start">
+
+    <iframe height="500px" class="max-w-5xl mb-4" width="100%" src="{{item.src}}"></iframe>
+    <h1 class="text-2xl font-bold w-full mb-4 "> {{item.title}} </h1>
+    <pre class="max-w-4xl">{{item.description}}</p>
+
+</div>
+
+
+@end
