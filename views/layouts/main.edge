@@ -8,24 +8,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>{{ site.title }}</title>
 </head>
-<body>
-    <header class="bg-black text-white py-5 px-4 mb-4">
-        <a href="/">
+
+@set('contentHeight', 'calc(100% - 48px)')
+
+<body class="flex flex-wrap h-screen">
+    <header class="w-full h-12 flex items-center justify-center border-b text-center">
+        <a href="/" class="font-bold">
             {{ site.title }}
         </a>
     </header>
     
-    @!section('body')
-
-    <footer class="bg-black text-white py-5 px-4 mt-4">
-
-    </footer>
-
-    <script>
-        document.querySelectorAll('[data-moment-format]').forEach(element => {
-            element.innerHTML = moment(element.innerHTML, element.dataset.momentOriginFormat).format(element.dataset.momentFormat)  
-        })
-    </script>
+    <div class="hidden lg:flex lg:w-3/12 xl:w-2/12 overflow-auto border-r" style="height: {{ contentHeight }}">
+        @!component('components/sidebar')
+    </div>
+    
+    <div class="lg:flex-1 overflow-auto" style="height: {{ contentHeight }}">
+        @!section('body')
+    </div>
 
 </body>
 </html>

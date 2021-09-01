@@ -1,21 +1,21 @@
 const { join } = require('path')
 const edge = require('edge.js').default
+const moment = require('moment')
 module.exports = class Awake {
-    start(){
-        edge.mount(join(__dirname, 'views'))
-    }
     async render({ path, query, site }){
 
-        this.start()
+        edge.mount(join(__dirname, 'views'))
 
         edge.global('query', query)
 
         edge.global('site', site)
+
+        edge.global('moment', moment)
         
         if (path === '/') {
             const { data, meta } = await this.type.fetchItems('youtube-videos', {
                 page: query.page,
-                limit: 5
+                limit: 8
             })
 
             return edge.render('home', {

@@ -2,50 +2,24 @@
 
 @section('body')
 
-    <div class="container mx-auto justify-center flex flex-wrap py-4">        
-        <ul class="w-full">
-            @each(item in items)
-                <li class="shadow-lg max-w-3xl mx-auto mb-4">
-                    <a href="/youtube/{{ item.id }}">
-                        <img
-                            style="height:500px"
-                            src="{{item.thumbnailSrc}}"
-                            alt="{{item.title}}"
-                            class="w-full object-cover"
-                        >
-                    </a>
-                    
-                    <div class="p-4 flex flex-wrap">
-                        <a href="/youtube/{{ item.id }}">
-                            <h2 class="font-bold w-full">
-                                {{ item.title }} 
-                            </h2>
-                        </a>
-
-                        <div class="w-full my-2">
-                            {{excerpt(item.description, 150)}}
-                        </div>
-
-                        <div class="text-sm mt-2 w-6/12">
-                            {{item.typeName}}
-                        </div>
-
-                        <div
-                            data-moment-format='YYYY/MM/DD'
-                            data-moment-origin-format='YYYY-MM-DDThh:mm:ss.sZ'
-                            class="text-sm mt-2 w-6/12 text-right"
-                        >
-                            {{ item.publishedAt }}
-                        </div>
-
-                    </div>
-                </li>
-            @endeach
-        </ul>
-
-        <div>
-            @!component('components/pagination', meta)
-        </div>
-
+    <ul class="flex flex-wrap py-4">
+        
+        @each(item in items)
+            <li class="w-12/12 md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 mb-4">
+                @!component('components/video', {
+                    link: `youtube/${item.id}`,
+                    thumbnailSrc: item.thumbnailSrc,
+                    title: item.title,
+                    description: item.description,
+                    date: moment(item.publishedAt, 'YYYY-MM-DDThh:mm:ss.sZ').fromNow(),
+                    typeName: item.typeName
+                })
+            </li>
+        @endeach
+            
+    </ul>
+    
+    <div class="w-full py-4">
+        @!component('components/pagination', meta)
     </div>
 @end  

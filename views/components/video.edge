@@ -1,0 +1,36 @@
+@set('thumbHeight', '200px')
+<div class="shadow-lg max-w-3xl mx-auto h-full">
+    <a href="{{ link }}">
+        <img
+            style="height:{{thumbHeight}}"
+            src="{{ thumbnailSrc }}"
+            alt="{{ title }}"
+            class="w-full object-cover"
+        >
+    </a>
+    
+    <div class="p-4 flex flex-wrap" style="height:calc(100% - {{thumbHeight}})">
+        <a href="{{ link }}">
+            <h2 class="font-bold w-full">
+                {{ title }} 
+            </h2>
+        </a>
+
+        <div class="w-full my-2 text-sm break-all">
+            {{excerpt(description, 100)}}
+        </div>
+
+        <div class="w-full self-end flex">
+            <div class="text-sm mt-2 w-6/12">
+                {{ typeName }}
+            </div>
+    
+            <div class="text-sm mt-2 w-6/12 text-right">
+                {{ date }}
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
