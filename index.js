@@ -7,7 +7,7 @@ const assets = new Map()
 assets.set('script.js', join(__dirname, 'assets', 'script.js'))
 module.exports = class Awake {
     assets = assets
-    async render({ path, query, site }){
+    async render({ path, query, site, fullPath }){
 
         edge.mount(join(__dirname, 'views'))
 
@@ -18,11 +18,11 @@ module.exports = class Awake {
         edge.global('moment', moment)
         
         if (path === '/') {
-            const { data, meta } = await this.type.fetchItems('youtube-videos', {
+            const { data, meta } = await this.item.fetchItems({
                 search: query.search,
                 page: query.page,
                 limit: 12
-            })
+            }, true)
 
             return edge.render('home', {
                 items: data,
@@ -31,12 +31,35 @@ module.exports = class Awake {
         }
 
         if (path === '/youtube') {
-            return 'youtube archive'
+            const { data, meta } = await this.type.fetchItems('youtube-videos', {
+                search: query.search,
+                page: query.page,
+                limit: 12
+            })
+
+            return edge.render('archive-youtube-videos', {
+                items: data,
+                meta
+            })
+        }
+
+        if (/\/local\/*/.test(path)) {
+            const { data, meta } = await this.type.fetchItems('local-videos', {
+                search: query.search,
+                page: query.page,
+                limit: 12
+            })
+
+            return edge.render('archive-local-videos', {
+                items: data,
+                meta
+            })
         }
 
         if (/\/youtube\/*/.test(path)) {
             return 'youtube single'
         }
+
         
         return '404'
     }

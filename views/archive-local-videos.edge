@@ -1,0 +1,39 @@
+@layout('layouts/main')
+
+@section('body')
+
+    @if(items.length === 0)
+        <div class="flex h-full w-full items-center justify-center">
+            No items found
+        </div>
+    @else
+        <h3 class="font-bold p-4 text-2xl text-gray-700">
+            Local videos: {{ meta.total }} videos
+        </h3>
+
+        <ul class="flex flex-wrap py-4">
+
+            
+            @each(item in items)
+                <li class="w-12/12 md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 mb-4">
+                    @!component('components/video', {
+                        link: `local/${item.id}`,
+                        thumbnailSrc: item.thumbnail,
+                        title: item.title,
+                        description: item.description,
+                        date: moment(item.createdAt).fromNow(),
+                        typeName: item.typeName
+                    })
+                </li>
+            @endeach
+                
+        </ul>
+
+    @end
+
+    @if(meta.last_page > 1)
+        <div class="w-full py-4">
+            @!component('components/pagination', meta)
+        </div>
+    @endif
+@end  
