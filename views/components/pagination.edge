@@ -1,16 +1,39 @@
-@set('links', Array.from({ length: last_page }))
+@set('links', Array.from({ length: last_page }).map((_, index) => index + 1) )
+
+@set('current', Number(current_page))
+@set('total', Number(last_page))
+
+@set('start', Math.max(0, current - 4))
+@set('end', Math.min(current + 3, total))
 
 <ul class="flex full-width justify-center">
-    @each((link, index) in links)
+    @if(current !== 1)
+      <li class="mr-2">
+        <a href="/?page=1" class="text-blue-500">
+            1
+        </a>
+        ...
+      </li>
+    @endif
+
+    @each((number) in links.slice(start, end))
     
       <li class="mr-2">
         <a
-            href="{{Number(current_page) === index + 1 ? '#' : '/?page=' + ( index + 1 ) }}"
-            disabled='' 
-            class="{{Number(current_page) === index + 1 ? '' : 'text-blue-500' }}"
+            href="{{current === number ? '#' : '/?page=' + ( number ) }}"
+            class="{{current === number ? '' : 'text-blue-500' }}"
         >
-            {{index + 1}}
+            {{number}}
         </a>
       </li>
-      @endeach
+    @endeach
+
+    @if(current !== total)
+      <li class="mr-2">
+        ...
+        <a href="/?page={{ total }}" class="text-blue-500">
+            {{total}}
+        </a>
+      </li>
+    @endif
 </ul>

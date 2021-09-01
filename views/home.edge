@@ -2,24 +2,34 @@
 
 @section('body')
 
-    <ul class="flex flex-wrap py-4">
-        
-        @each(item in items)
-            <li class="w-12/12 md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 mb-4">
-                @!component('components/video', {
-                    link: `youtube/${item.id}`,
-                    thumbnailSrc: item.thumbnailSrc,
-                    title: item.title,
-                    description: item.description,
-                    date: moment(item.publishedAt, 'YYYY-MM-DDThh:mm:ss.sZ').fromNow(),
-                    typeName: item.typeName
-                })
-            </li>
-        @endeach
+    @if(items.length === 0)
+        <div class="flex h-full w-full items-center justify-center">
+            No items found
+        </div>
+    @else
+        <ul class="flex flex-wrap py-4">
+
             
-    </ul>
-    
-    <div class="w-full py-4">
-        @!component('components/pagination', meta)
-    </div>
+            @each(item in items)
+                <li class="w-12/12 md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 mb-4">
+                    @!component('components/video', {
+                        link: `youtube/${item.id}`,
+                        thumbnailSrc: item.thumbnailSrc,
+                        title: item.title,
+                        description: item.description,
+                        date: moment(item.publishedAt, 'YYYY-MM-DDThh:mm:ss.sZ').fromNow(),
+                        typeName: item.typeName
+                    })
+                </li>
+            @endeach
+                
+        </ul>
+
+    @end
+
+    @if(meta.last_page > 1)
+        <div class="w-full py-4">
+            @!component('components/pagination', meta)
+        </div>
+    @endif
 @end  

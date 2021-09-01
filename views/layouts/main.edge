@@ -4,18 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="/assets/script.js" async ></script>
+
     <title>{{ site.title }}</title>
+
 </head>
 
 @set('contentHeight', 'calc(100% - 48px)')
 
 <body class="flex flex-wrap h-screen">
-    <header class="w-full h-12 flex items-center justify-center border-b text-center">
-        <a href="/" class="font-bold">
-            {{ site.title }}
+    <header class="w-full h-12 flex items-center border-b text-center px-8">
+        <a href="/" class="font-bold text-xl text-gray-500">
+            <h1>{{ site.title }}</h1>
         </a>
+        <div class="flex-1"></div>
+
+        @!component('components/search-bar')
+        
+        <div class="flex-1"></div>
     </header>
     
     <div class="hidden lg:flex lg:w-3/12 xl:w-2/12 overflow-auto border-r" style="height: {{ contentHeight }}">

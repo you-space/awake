@@ -1,0 +1,15 @@
+<button
+    class="px-4 bg-gray-500 text-white font-bold flex items-center"
+    type="{{ type }}"
+>
+    @if (!!text)
+        {{ text }}
+    @endif
+
+    @if(icon)
+        <span class="material-icons">
+            {{ icon }}
+        </span>
+    @endif
+
+</button>
