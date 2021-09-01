@@ -1,23 +1,27 @@
-@set('links', Array.from({ length: last_page }).map((_, index) => index + 1) )
-
 @set('current', Number(current_page))
 @set('total', Number(last_page))
 
 @set('start', Math.max(0, current - 4))
 @set('end', Math.min(current + 3, total))
 
+@set('links',
+  Array.from({ length: total })
+      .map((_, index) => index + 1)
+      .slice(start, end)
+)
+
 <ul class="flex full-width justify-center">
-    @if(current !== 1)
+    
+  @if(!links.includes(1))
       <li class="mr-2">
         <a href="/?page=1" class="text-blue-500">
             1
         </a>
         ...
       </li>
-    @endif
+  @endif
 
-    @each((number) in links.slice(start, end))
-    
+    @each((number) in links)    
       <li class="mr-2">
         <a
             href="{{current === number ? '#' : '/?page=' + ( number ) }}"
@@ -28,12 +32,13 @@
       </li>
     @endeach
 
-    @if(current !== total)
-      <li class="mr-2">
-        ...
-        <a href="/?page={{ total }}" class="text-blue-500">
-            {{total}}
-        </a>
-      </li>
-    @endif
+  @if(!links.includes(total))
+    <li class="mr-2">
+      ...
+      <a href="/?page={{ total }}" class="text-blue-500">
+          {{total}}
+      </a>
+    </li>
+  @endif
+
 </ul>
