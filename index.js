@@ -1,10 +1,37 @@
-const page = require('./pages/index')
+const { join } = require('path')
+const edge = require('edge.js').default
+module.exports = class Awake {
+    start(){
+        edge.mount(join(__dirname, 'views'))
+    }
+    async render({ path, query, site }){
 
-class Index {
-    async render(url){
+        this.start()
 
-        return page()
+        edge.global('query', query)
+
+        edge.global('site', site)
+        
+        if (path === '/') {
+            const { data, meta } = await this.type.fetchItems('youtube-videos', {
+                page: query.page,
+                limit: 5
+            })
+
+            return edge.render('home', {
+                items: data,
+                meta
+            })
+        }
+
+        if (path === '/youtube') {
+            return 'youtube archive'
+        }
+
+        if (/\/youtube\/*/.test(path)) {
+            return 'youtube single'
+        }
+        
+        return '404'
     }
 }
-
-module.exports = Index
