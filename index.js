@@ -7,7 +7,7 @@ const assets = new Map()
 assets.set('script.js', join(__dirname, 'assets', 'script.js'))
 module.exports = class Awake {
     assets = assets
-    async render({ path, query, site, fullPath }){
+    async render({ path, query, site, params }){
 
         edge.mount(join(__dirname, 'views'))
 
@@ -42,8 +42,30 @@ module.exports = class Awake {
                 meta
             })
         }
+        
+        if (/\/youtube\/*/.test(path)) {
+            const item = await this.type.find('youtube-videos', {
+                search: query.search,
+                id: params[1]
+            })
 
-        if (/\/local\/*/.test(path)) {
+            if (!item) {
+                return edge.render('404')
+            }
+
+            const { data } = await this.type.fetchItems('youtube-videos', {
+                limit: 4,
+                random: true
+            })
+            
+            return edge.render('single-youtube-videos', {
+                video: item,
+                otherVideos: data
+
+            })
+        }
+
+        if (path === '/local') {
             const { data, meta } = await this.type.fetchItems('local-videos', {
                 search: query.search,
                 page: query.page,
@@ -56,11 +78,28 @@ module.exports = class Awake {
             })
         }
 
-        if (/\/youtube\/*/.test(path)) {
-            return 'youtube single'
+        if (/\/local\/*/.test(path)) {
+            const item = await this.type.find('local-videos', {
+                search: query.search,
+                id: params[1]
+            })
+
+            if (!item) {
+                return edge.render('404')
+            }
+
+            const { data } = await this.type.fetchItems('local-videos', {
+                limit: 4,
+                random: true
+            })
+
+            return edge.render('single-local-videos', {
+                video: item,
+                otherVideos: data
+            })
         }
 
         
-        return '404'
+        return edge.render('404')
     }
 }

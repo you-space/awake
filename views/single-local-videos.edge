@@ -1,0 +1,30 @@
+@layout('layouts/main')
+
+@section('body')
+
+    <div class="container mx-auto flex flex-wrap justify-start py-5">
+
+        <div class="flex-1">
+            <video controls height="600px" class="mb-4" width="100%" src="{{video.video}}"></video>
+            <h1 class="text-2xl font-bold w-full mb-4 "> {{video.title}} </h1>
+            <p class="whitespace-pre-line">{{video.description}}</p>
+        </div>
+
+        <div class="w-3/12 h-full flex flex-wrap">
+            @each(item in otherVideos)
+                <div class="w-full flex flex-wrap px-4 mb-4">
+                    @!component('components/video', {
+                        link: `local/${item.id}`,
+                        thumbnailSrc: item.thumbnail,
+                        title: item.title,
+                        description: item.description,
+                        date: moment(item.createdAt).fromNow(),
+                        typeName: item.typeName
+                    })
+                </div>
+            @endeach
+        </div>
+
+    </div>
+
+@end
