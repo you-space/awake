@@ -2,6 +2,13 @@
 
 @section('body')
 
+@set('filters', {
+    limit: 4,
+    random: true
+})
+
+@set('related', await server.type.fetchItems('youtube-videos', filters))
+
 <div class="container mx-auto flex flex-wrap justify-start py-5">
 
     <div class="flex-1">
@@ -11,7 +18,7 @@
     </div>
 
     <div class="w-3/12 h-full flex flex-wrap">
-        @each(item in otherVideos)
+        @each(item in related.data)
             <div class="w-full flex flex-wrap px-4 mb-4">
                 @!component('components/video', {
                     link: `/youtube/${item.id}`,

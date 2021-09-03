@@ -2,7 +2,14 @@
 
 @section('body')
 
-    @if(items.length === 0)
+@set('filters', { search: query.search,
+    page: query.page,
+    limit: 12
+})
+
+@set('content', await server.item.fetchItems(filters, true))
+
+    @if(content.data.length === 0)
         <div class="flex h-full w-full items-center justify-center">
             No items found
         </div>
@@ -10,7 +17,7 @@
         <ul class="flex flex-wrap py-4">
 
             
-            @each(item in items)
+            @each(item in content.data)
                 <li class="w-12/12 md:w-6/12 lg:w-4/12 xl:w-3/12 px-4 mb-4">
                     @if(item.typeName === 'youtube-videos')
                         @!component('components/video', {
@@ -40,7 +47,7 @@
 
     @end
 
-    @if(meta.last_page > 1)
+    @if(content.meta.last_page > 1)
         <div class="w-full py-4">
             @!component('components/pagination', meta)
         </div>
