@@ -7,6 +7,8 @@ document.querySelectorAll('.search-form').forEach(form => {
 
         const url = new URL(window.location.href);
 
+        url.pathname = ''
+
         url.searchParams.set('search', value);
         url.searchParams.set('page', 1);
 
